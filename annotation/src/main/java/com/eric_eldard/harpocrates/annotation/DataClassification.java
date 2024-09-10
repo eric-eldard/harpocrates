@@ -26,7 +26,7 @@ public @interface DataClassification
     /**
      * How should the obfuscator treat this piece of data
      */
-    Action action() default Action.REMOVE;
+    Action action() default Action.REPLACE;
 
     /**
      * A custom replacement pattern using any combination of hard-coded strings, placeholders for existing

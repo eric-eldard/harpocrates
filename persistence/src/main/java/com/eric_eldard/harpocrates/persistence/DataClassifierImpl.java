@@ -14,6 +14,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -25,8 +26,13 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -85,14 +91,51 @@ public class DataClassifierImpl implements DataClassifier
 
     private final String basePackageToScan;
 
-    public DataClassifierImpl(DataSource dataSource,
-                              @Value("${harpocrates.base-package-to-scan}") String basePackageToScan)
+    private final boolean destroyAfterExecution;
+
+    private BeanFactory beanFactory;
+
+    /**
+     * Non-Spring constructor
+     */
+    public DataClassifierImpl(DataSource dataSource, String basePackageToScan)
+    {
+        this(dataSource, basePackageToScan, false);
+    }
+
+    /**
+     * @param dataSource            A datasource with access to modify the tables which store entities with
+     *                              {@link DataClassification}s
+     *                              <br>
+     * @param basePackageToScan     The lowest level classpath package to start recursively scanning for
+     *                              {@link DataClassification}s
+     *                              <br>
+     * @param destroyAfterExecution If {@code true} and this instance is a Spring bean,
+     *                              {@link DefaultListableBeanFactory#removeBeanDefinition(String)} will be invoked on
+     *                              this {@link DataClassifier} after execution. DataClassifier runs on app startup, and
+     *                              there is generally no reason to keep it around after it's written classifications to
+     *                              your database.
+     */
+    @Autowired
+    @SneakyThrows
+    private DataClassifierImpl(@Qualifier("${harpocrates.datasource:dataSource}") DataSource dataSource,
+                              @Value("${harpocrates.base-package-to-scan}") String basePackageToScan,
+                              @Value("${harpocrates.destroy-after-exec:true}") boolean destroyAfterExecution
+    )
     {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.basePackageToScan = basePackageToScan;
+        this.destroyAfterExecution = destroyAfterExecution;
 
-        LOGGER.info("\n\n*** Harpocrates data classifier started ***\n");
+        try (Connection tmpConn = dataSource.getConnection())
+        {
+            LOGGER.info("\n\n*** Harpocrates data classifier started ***" +
+                "\n- database:\t\t\t\t\t" + tmpConn.getMetaData().getURL() +
+                "\n- base package to scan:\t\t" + basePackageToScan +
+                "\n- destroy DataClassifier:\t" + destroyAfterExecution + '\n'
+            );
+        }
     }
 
     @PostConstruct
@@ -113,7 +156,7 @@ public class DataClassifierImpl implements DataClassifier
             String tableDef = getTableDef(tableName);
             Map<String, DataDefinition> dataDefsByField = getDataDefsByField(clazz);
 
-            LOGGER.info("Retrieved table definition for `{}`:\n{}\n", tableName, tableDef);
+            LOGGER.info("Retrieved table definition for `{}`:\n\n{}\n", tableName, tableDef);
 
             List<String> columnList = Arrays.stream(tableDef.split("\n"))
                 .filter(this::isColumnDef)
@@ -170,6 +213,8 @@ public class DataClassifierImpl implements DataClassifier
             LOGGER.info("Updating table definition for `{}`:\n\n{}\n", tableName, finalAlterStmt);
             updateTable(finalAlterStmt);
         }
+
+        shutdown();
     }
 
     private Set<BeanDefinition> getClassesWithDataClassifications()
@@ -295,6 +340,37 @@ public class DataClassifierImpl implements DataClassifier
     private boolean isColumnDef(String stmt)
     {
         return stmt.matches("^ *`.+`.*");
+    }
+
+    private void shutdown()
+    {
+        if (beanFactory instanceof DefaultListableBeanFactory listableBeanFactory)
+        {
+            LOGGER.info("Shutting down Harpocrates...");
+            if (destroyAfterExecution)
+            {
+                listableBeanFactory.getBeansOfType(DataClassifierImpl.class).entrySet().stream()
+                    .filter(entry -> entry.getValue().equals(this))
+                    .map(Map.Entry::getKey)
+                    .forEach(listableBeanFactory::removeBeanDefinition);
+                LOGGER.info("Harpocrates DataClassifier Spring bean destroyed");
+            }
+            else
+            {
+                LOGGER.info("The Harpocrates DataClassifier bean remains in the Spring context. To automatically " +
+                    "remove it, set property [harpocrates.destroy-after-exec=true] (which is the default value).");
+            }
+        }
+        else
+        {
+            LOGGER.info("Shutting down Harpocrates; this instance was not Spring-managed.");
+        }
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException
+    {
+        this.beanFactory = beanFactory;
     }
 
     /**
