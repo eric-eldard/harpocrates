@@ -8,8 +8,8 @@
 
 ## Please Note
 <ul>
-    <li><b>Harpocrates will manipulate your database schema</b>, live, when your apps starts up</li>
-    <li>Harpocrates is a work in progress</li>
+    <li><b>Harpocrates will manipulate your database schema</b>, live, when your app starts up</li>
+    <li>Harpocrates is largely a proof of concept and is a work in progress</li>
 </ul>
 
 ## TODO
