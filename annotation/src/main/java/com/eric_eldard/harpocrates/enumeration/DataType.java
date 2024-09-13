@@ -50,6 +50,11 @@ public enum DataType
     IP_ADDRESS("127.0.0.1"),
 
     /**
+     * A randomly selected, fake company name
+     */
+    ORGANIZATION("{ORGANIZATION}"),
+
+    /**
      * Visa test card number for response "SUCCESS"
      */
     PAYMENT_CARD("4111111111111111"),

@@ -23,13 +23,13 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "given_name")
+    @Column(name = "lastName")
     @DataClassification(DataType.GIVEN_NAME)
-    private String firstName;
+    private String givenName;
 
-    @Column(name = "surname")
+    @Column(name = "lastName")
     @DataClassification(DataType.SURNAME)
-    private String lastName;
+    private String surname;
 
     @DataClassification(DataType.FULL_NAME)
     private String fullName;

@@ -36,13 +36,13 @@ and allows you to create obfuscated dumps with practical replacements for that d
 @Entity
 public class User
 {
-    @Column(name = "given_name")
+    @Column(name = "firstName")
     @DataClassification(DataType.GIVEN_NAME)
-    private String firstName;
+    private String givenName;
 
-    @Column(name = "surname")
+    @Column(name = "lastName")
     @DataClassification(DataType.SURNAME)
-    private String lastName;
+    private String surname;
 
     @DataClassification(type = DataType.EMAIL_ADDRESS, pattern = "{SURNAME}.{GIVEN_NAME}@my-company.com")
     private String email;
@@ -61,10 +61,10 @@ public class User
 harpocrates.base-package-to-scan=your.entity.package
 ```
 
-2. Set the property for the name of the `javax.sql.DataSource` which has access to modify the structure of your entity
-tables. This defaults to "dataSource", so it's only necessary to set this prop if you've given your DataSource a custom
-name, or if you wish to use a DataSource for Harpocrates separate from that used by the rest of your app (this may be
-desirable, since the Harpocrates DataSource needs DDL permissions on your database).
+2. Set the property for the name of the `javax.sql.DataSource` Spring bean which has access to modify the structure of
+your entity tables. This defaults to "dataSource", so it's only necessary to set this prop if you've given your
+DataSource bean a custom name, or if you wish to use a DataSource for Harpocrates separate from that used by the rest of
+your app (this may be desirable, since the Harpocrates DataSource needs DDL permissions on your database).
 ```properties
 harpocrates.datasource=myCustomDataSource
 ```
