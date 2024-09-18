@@ -23,7 +23,7 @@ public class User
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "lastName")
+    @Column(name = "firstName")
     @DataClassification(DataType.GIVEN_NAME)
     private String givenName;
 
