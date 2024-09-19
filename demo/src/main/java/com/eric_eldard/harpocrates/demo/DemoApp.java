@@ -6,7 +6,7 @@ import com.eric_eldard.harpocrates.persistence.DataClassifierImpl;
 
 public class DemoApp
 {
-    public static void main(String[] args)
+    void main()
     {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DemoAppConfig.class);
         assert context.getBeansOfType(DataClassifierImpl.class).isEmpty(); // verify DataClassifier removed itself
