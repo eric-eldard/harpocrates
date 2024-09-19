@@ -70,11 +70,6 @@ public final class DbNameUtils
         return out.toString();
     }
 
-    public static void main(String[] args)
-    {
-        System.out.println(DbNameUtils.snakeToPascal("hello_there_jimmy"));
-    }
-
     private DbNameUtils()
     {
         // util ctor

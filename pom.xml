@@ -4,7 +4,7 @@
 
   <groupId>com.eric_eldard</groupId>
   <artifactId>harpocrates</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Harpocrates Data Obfuscator</name>
@@ -128,6 +128,10 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+          <release>${java.version}</release>
+          <compilerArgs>
+            <arg>--enable-preview</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
     </plugins>

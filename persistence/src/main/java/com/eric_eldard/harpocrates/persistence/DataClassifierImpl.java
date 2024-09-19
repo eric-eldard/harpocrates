@@ -58,9 +58,9 @@ import com.eric_eldard.harpocrates.util.FunctionUtils;
  * {@link DataClassifier#writeClassificationsToDb()} will run automatically on startup
  * <br><br>
  * <b>Manual setup:</b>
- * <pre>
- * new DataClassifierImpl(dataSource, "my.base.package").writeClassificationsToDb();
- * </pre>
+ * {@snippet :
+ *     new DataClassifierImpl(dataSource, "my.base.package").writeClassificationsToDb();
+ * }
  */
 @Component
 public class DataClassifierImpl implements DataClassifier
@@ -130,10 +130,13 @@ public class DataClassifierImpl implements DataClassifier
 
         try (Connection tmpConn = dataSource.getConnection())
         {
-            LOGGER.info("\n\n*** Harpocrates data classifier started ***" +
-                "\n- database:\t\t\t\t\t" + tmpConn.getMetaData().getURL() +
-                "\n- base package to scan:\t\t" + basePackageToScan +
-                "\n- destroy DataClassifier:\t" + destroyAfterExecution + '\n'
+            LOGGER.info(STR."""
+                \n
+                *** Harpocrates data classifier started ***
+                - database:\t\t\t\t\t + \{tmpConn.getMetaData().getURL()}
+                - base package to scan:\t\t + \{basePackageToScan}
+                - destroy DataClassifier:\t + \{destroyAfterExecution}
+                """.stripIndent()
             );
         }
     }

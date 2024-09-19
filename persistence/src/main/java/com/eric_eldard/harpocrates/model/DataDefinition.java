@@ -52,7 +52,7 @@ public class DataDefinition
         }
         catch (JsonProcessingException ex)
         {
-            throw new RuntimeException("Unable to convert data definition to json: [" + this + "]", ex);
+            throw new RuntimeException(STR."Unable to convert data definition to json: [\{this}]", ex);
         }
     }
 
@@ -64,7 +64,7 @@ public class DataDefinition
         }
         catch (JsonProcessingException ex)
         {
-            throw new RuntimeException("Unable to convert json to data definition: [" + json + "]", ex);
+            throw new RuntimeException(STR."Unable to convert json to data definition: [\{json}]", ex);
         }
     }
 }
