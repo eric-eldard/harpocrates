@@ -66,6 +66,10 @@ public class AddressService
     public String makeAddress()
     {
         int i = ThreadLocalRandom.current().nextInt(STREET_ADDRESSES.size());
-        return STR."\{STREET_ADDRESSES.get(i)}, \{CITIES.get(i)}, \{STATES.get(i)}  \{ZIPS.get(i)}";
+        return
+            STREET_ADDRESSES.get(i) + ", " +
+            CITIES.get(i) + ", " +
+            STATES.get(i) + ", " +
+            ZIPS.get(i);
     }
 }

@@ -59,7 +59,7 @@ import com.eric_eldard.harpocrates.util.FunctionUtils;
  * <br><br>
  * <b>Manual setup:</b>
  * {@snippet :
- *     new DataClassifierImpl(dataSource, "my.base.package").writeClassificationsToDb();
+ *     new DataClassifierImpl(dataSource, "your.entity.package").writeClassificationsToDb();
  * }
  */
 @Component
@@ -130,13 +130,16 @@ public class DataClassifierImpl implements DataClassifier
 
         try (Connection tmpConn = dataSource.getConnection())
         {
-            LOGGER.info(STR."""
+            LOGGER.info("""
                 \n
                 *** Harpocrates data classifier started ***
-                - database:\t\t\t\t\t + \{tmpConn.getMetaData().getURL()}
-                - base package to scan:\t\t + \{basePackageToScan}
-                - destroy DataClassifier:\t + \{destroyAfterExecution}
-                """.stripIndent()
+                - database:               {}
+                - base package to scan:   {}
+                - destroy DataClassifier: {}
+                """.stripIndent(),
+                tmpConn.getMetaData().getURL(),
+                basePackageToScan,
+                destroyAfterExecution
             );
         }
     }

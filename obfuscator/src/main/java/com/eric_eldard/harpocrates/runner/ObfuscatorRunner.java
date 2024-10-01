@@ -2,7 +2,7 @@ package com.eric_eldard.harpocrates.runner;
 
 public class ObfuscatorRunner
 {
-    void main()
+    public static void main(String[] args)
     {
 
     }

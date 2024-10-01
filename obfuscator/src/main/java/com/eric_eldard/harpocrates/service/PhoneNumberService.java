@@ -32,11 +32,10 @@ public class PhoneNumberService
     public String makePhoneNumber()
     {
         String areaCode = AREA_CODES.get(ThreadLocalRandom.current().nextInt(AREA_CODES.size()));
-        return STR."\{areaCode}555\{randDigit()}\{randDigit()}\{randDigit()}\{randDigit()}";
-    }
-
-    private int randDigit()
-    {
-        return ThreadLocalRandom.current().nextInt(10);
+        return areaCode + "555" +
+            ThreadLocalRandom.current().nextInt(10) +
+            ThreadLocalRandom.current().nextInt(10) +
+            ThreadLocalRandom.current().nextInt(10) +
+            ThreadLocalRandom.current().nextInt(10);
     }
 }

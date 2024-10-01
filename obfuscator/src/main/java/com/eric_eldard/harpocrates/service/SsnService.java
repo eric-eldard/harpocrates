@@ -1,6 +1,5 @@
 package com.eric_eldard.harpocrates.service;
 
-import java.util.FormatProcessor;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SsnService
@@ -9,7 +8,7 @@ public class SsnService
 
     public String makeSsn()
     {
-        return FormatProcessor.FMT."\{randArea()}-%02d\{randGroup()}-0000"; // no valid SSNs end in 0000
+        return String.format("%s-%02d-0000", randArea(), randGroup()); // no valid SSNs end in 0000
     }
 
     /**
