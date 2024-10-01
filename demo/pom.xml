@@ -11,7 +11,7 @@
     <artifactId>harpocrates-demo</artifactId>
     <packaging>jar</packaging>
 
-    <name>demo</name>
+    <name>Harpocrates Annotation &amp; Persistence Demo</name>
 
     <dependencies>
         <dependency>

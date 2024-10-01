@@ -11,7 +11,7 @@
     <artifactId>harpocrates-obfuscator</artifactId>
     <packaging>jar</packaging>
 
-    <name>obfuscator</name>
+    <name>Harpocrates Obfuscator</name>
 
     <dependencies>
         <dependency>

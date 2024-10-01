@@ -11,7 +11,7 @@
     <artifactId>harpocrates-annotation</artifactId>
     <packaging>jar</packaging>
 
-    <name>annotation</name>
+    <name>Harpocrates Annotation</name>
 
     <dependencies>
         <dependency>

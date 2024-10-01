@@ -11,7 +11,7 @@
     <artifactId>harpocrates-persistence</artifactId>
     <packaging>jar</packaging>
 
-    <name>persistence</name>
+    <name>Harpocrates Persistence</name>
 
     <dependencies>
         <dependency>
