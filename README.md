@@ -92,8 +92,16 @@ new DataClassifierImpl(dataSource, "your.entity.package").writeClassificationsTo
 ```
 
 ### Make an Obfuscated Dump
+
+#### From an existing dump
 ```shell
-java -jar harpocrates-obfuscator-0.1-SNAPSHOT-fat.jar CREATE_DUMP /your/app/resources/application.properties /destination/dir/dump-name.sql
+java -jar harpocrates-obfuscator-0.1-SNAPSHOT-fat.jar READ_DUMP /path/to/your/dump.sql /destination/dir/obfuscated-dump-name.sql
+```
+
+#### Without an existing dump
+Provide the path to your Spring app's `application.properties` to have the obfuscator first make a fresh dump from your database.
+```shell
+java -jar harpocrates-obfuscator-0.1-SNAPSHOT-fat.jar CREATE_DUMP /path/to/your/application.properties /destination/dir/obfuscated-dump-name.sql
 ```
 
 ## TODO
