@@ -91,6 +91,11 @@ harpocrates.destroy-after-exec=false
 new DataClassifierImpl(dataSource, "your.entity.package").writeClassificationsToDb();
 ```
 
+### Make an Obfuscated Dump
+```shell
+java -jar harpocrates-obfuscator-0.1-SNAPSHOT-fat.jar CREATE_DUMP /your/app/resources/application.properties /destination/dir/dump-name.sql
+```
+
 ## TODO
 
 ### Persistence module
@@ -105,5 +110,10 @@ new DataClassifierImpl(dataSource, "your.entity.package").writeClassificationsTo
     - [x] support for custom DataSource 
     - [ ] alternate mode which can be run statically against the app?
 
+## Demo module
+- [ ] H2 db option?
+
 ### Obfuscator module
-- [ ] write it
+- [x] write it
+- [ ] make ObfuscatorRunner OS agnostic?
+- [ ] support for mysqldump --extended-insert=TRUE and --complete-insert=FALSE?

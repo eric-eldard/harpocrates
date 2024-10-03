@@ -50,11 +50,11 @@ import com.eric_eldard.harpocrates.util.FunctionUtils;
  * into the comment area of the corresponding MySQL table column.
  * <br><br>
  * <b>Spring setup:</b>
- * <ul>
+ * <ol>
  *     <li>add a bean of the type {@link DataClassifier} to your Spring context</li>
  *     <li>ensure a {@link DataSource} bean is available in your Spring context</li>
  *     <li>set the property {@code harpocrates.base-package-to-scan}</li>
- * </ul>
+ * </ol>
  * {@link DataClassifier#writeClassificationsToDb()} will run automatically on startup
  * <br><br>
  * <b>Manual setup:</b>

@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.eric_eldard</groupId>
-            <artifactId>harpocrates-annotation</artifactId>
+            <artifactId>harpocrates-persistence</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
@@ -40,7 +40,14 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.eric_eldard.harpocrates.runner.ObfuscatorRunner</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>

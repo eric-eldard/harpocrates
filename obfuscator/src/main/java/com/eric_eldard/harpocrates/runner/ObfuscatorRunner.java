@@ -129,8 +129,10 @@ public class ObfuscatorRunner
         String[] cmd = new String[] {
             "/bin/sh",
             "-c",
-            String.format("mysqldump --host=\"%s\" --port=\"%s\" --user=\"%s\" --password=\"%s\" \"%s\" > %s",
-                host, port, username, nonNullPassword, dbName, tmpDump),
+            String.format("mysqldump --host=\"%s\" --port=\"%s\" --user=\"%s\" --password=\"%s\"" +
+                    " --extended-insert=FALSE --complete-insert=TRUE \"%s\" > %s",
+                host, port, username, nonNullPassword, dbName, tmpDump
+            )
         };
 
         Process process = new ProcessBuilder(cmd)

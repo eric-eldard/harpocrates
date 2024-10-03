@@ -20,7 +20,7 @@ public enum DataType
     CITY("{CITY}"),
 
     /**
-     * A randomly selected date between 1900-01-01 and now. The replacement will be an actual java.util.Data object.
+     * A randomly selected date between 1900-01-01 and now.
      */
     DATE("{DATE}"),
 

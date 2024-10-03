@@ -1,6 +1,9 @@
 package com.eric_eldard.harpocrates.demo.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.Column;
@@ -10,13 +13,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.Date;
 
-import com.eric_eldard.harpocrates.enumeration.Action;
 import com.eric_eldard.harpocrates.annotation.DataClassification;
 import com.eric_eldard.harpocrates.enumeration.DataType;
 
+@Entity
 @Getter
 @Setter
-@Entity
+@Builder
+@NoArgsConstructor  // JPA needs
+@AllArgsConstructor // @Builder needs
 public class User
 {
     @Id
@@ -59,15 +64,6 @@ public class User
     @DataClassification(DataType.SSN)
     private String ssn;
 
-    @DataClassification(DataType.PAYMENT_CARD)
-    private String paymentCard;
-
-    @DataClassification
-    private String removeThisText;
-
-    @DataClassification(action = Action.IGNORE)
-    private String ignoreThisText;
-
-    @DataClassification(action = Action.REPLACE, pattern = "A#{000000}")
-    private String replaceThisText;
+    @DataClassification(DataType.IP_ADDRESS)
+    private String ipAddress;
 }

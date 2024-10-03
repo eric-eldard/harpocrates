@@ -10,10 +10,10 @@
   <name>Harpocrates Data Obfuscator</name>
 
   <modules>
-    <module>obfuscator</module>
-    <module>demo</module>
     <module>annotation</module>
     <module>persistence</module>
+    <module>obfuscator</module>
+    <module>demo</module>
   </modules>
 
   <properties>
@@ -130,19 +130,47 @@
           <target>${java.version}</target>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
 
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>3.3.1</version>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.7.1</version>
+          <configuration>
+            <descriptorRefs>
+              <descriptorRef>jar-with-dependencies</descriptorRef>
+            </descriptorRefs>
+            <finalName>${project.artifactId}-${project.version}-fat</finalName>
+            <appendAssemblyId>false</appendAssemblyId>
+          </configuration>
           <executions>
             <execution>
-              <id>attach-sources</id>
+              <id>make-assembly</id>
+              <phase>package</phase>
               <goals>
-                <goal>jar</goal>
+                <goal>single</goal>
               </goals>
             </execution>
           </executions>
