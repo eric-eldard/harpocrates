@@ -118,7 +118,7 @@ java -jar harpocrates-obfuscator-0.1-SNAPSHOT-fat.jar CREATE_DUMP /path/to/your/
     - [x] support for custom DataSource 
     - [ ] alternate mode which can be run statically against the app?
 
-## Demo module
+### Demo module
 - [ ] H2 db option?
 
 ### Obfuscator module
