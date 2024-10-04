@@ -48,14 +48,15 @@ public class DemoApp
                 .build()
             );
 
+            // Tests having more than one table in original and obfuscated dumps
             customerRepo.save(Customer.builder()
                 .fullAddress("123 Private St Private Town PII 99999")
                 .randomAddress("123 Private St Private Town PII 99999")
                 .organization("Super Secret Co")
                 .paymentCard("0000-0000-0000-0000") // faker than the replacement data
                 .removeThisText("This is so secret...we better not see anything in the output")
-                .ignoreThisText("This text should appear in the obfuscated dump")
-                .notSensitiveText("This text was never sensitive")
+                .ignoreThisText("This text should appear in the obfuscated dump'") // tests trailing '
+                .notSensitiveText("This text was never sensitive, but enjoy this comma") // tests , in text
                 .docId("This text should be replaced by a custom pattern")
                 .multiDocId("This text should be replaced by a custom pattern")
                 .build()
