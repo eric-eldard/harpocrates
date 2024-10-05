@@ -40,6 +40,9 @@ public class Customer
     @DataClassification(DataType.PAYMENT_CARD)
     private String paymentCard;
 
+    @DataClassification(value = DataType.DOCUMENT_ID, description = "W9")
+    private String docId;
+
     @DataClassification
     private String removeThisText;
 
@@ -48,9 +51,6 @@ public class Customer
 
     @DataClassification(DataType.NOT_SENSITIVE)
     private String notSensitiveText;
-
-    @DataClassification(action = Action.REPLACE, pattern = "ID-#{AA000000}")
-    private String docId;
 
     @DataClassification(action = Action.REPLACE, pattern = "ID-#{AA}-#{A0}-#{00}")
     private String multiDocId;

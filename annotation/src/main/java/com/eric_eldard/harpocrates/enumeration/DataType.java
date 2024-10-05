@@ -25,6 +25,11 @@ public enum DataType
     DATE("{DATE}"),
 
     /**
+     * A randomly generated, 8-character document ID.
+     */
+    DOCUMENT_ID("#{AA000000}"),
+
+    /**
      * A fake email address built from a randomly paired {@link #GIVEN_NAME} and {@link #SURNAME}
      */
     EMAIL_ADDRESS("{GIVEN_NAME}.{SURNAME}@test.com"),
@@ -90,16 +95,16 @@ public enum DataType
     ZIP_CODE("{ZIP_CODE}"),
 
     /**
-     * Always {@link Action#IGNORE}
-     */
-    NOT_SENSITIVE(null),
-
-    /**
-     * Create your own pattern.
+     * Must supply your own pattern.
      * <br><br>
      * @see DataClassification#pattern()
      */
-    CUSTOM(null);
+    OTHER(null),
+
+    /**
+     * Treated the same as {@link Action#IGNORE}
+     */
+    NOT_SENSITIVE(null);
 
     private final String pattern;
 }

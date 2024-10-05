@@ -178,13 +178,15 @@ public class ObfuscatorService
         return obfuscatedStmt;
     }
 
-    private String obfuscateDatum(DataDefinition dataDefinition)
+    private String obfuscateDatum(DataDefinition dataDef)
     {
-        DataType type = dataDefinition.getType();
-        String pattern = type == DataType.CUSTOM ? dataDefinition.getPattern() : type.getPattern();
+        String pattern = dataDef.getPattern() == null ?
+            dataDef.getType().getPattern() :
+            dataDef.getPattern();
 
         if (pattern == null)
         {
+            // DataType#OTHER selected, but no replacement pattern provided; treat instead as Action#REMOVE
             return null;
         }
 

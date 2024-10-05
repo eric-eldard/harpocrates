@@ -123,5 +123,6 @@ java -jar harpocrates-obfuscator-0.1-SNAPSHOT-fat.jar CREATE_DUMP /path/to/your/
 
 ### Obfuscator module
 - [x] write it
+- [ ] preserve replacement data per row (if {SURNAME} already used, use same value when it appears again in same row)
 - [ ] make ObfuscatorRunner OS agnostic?
 - [ ] support for mysqldump --extended-insert=TRUE and --complete-insert=FALSE?

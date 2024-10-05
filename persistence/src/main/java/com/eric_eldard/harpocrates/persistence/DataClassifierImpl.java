@@ -144,6 +144,20 @@ public class DataClassifierImpl implements DataClassifier
         }
     }
 
+    /**
+     * Writes classifications from {@link DataClassification} annotations into the
+     * comments section of the corresponding database column, as url-encoded json.
+     * <br><br>
+     * Example (before encoding and minification)
+     * <pre>{@code
+     * {
+     *   "typ": "EMAIL_ADDRESS",
+     *   "act": "REPLACE",
+     *   "pat": "{SURNAME}.{GIVEN_NAME}@my-company.com",
+     *   "dsc": "User's primary email"
+     * }
+     * }</pre>
+     */
     @PostConstruct
     public void writeClassificationsToDb()
     {

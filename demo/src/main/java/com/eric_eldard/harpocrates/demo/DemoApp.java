@@ -37,6 +37,7 @@ public class DemoApp
                 .surname("SecretLastName" + i)
                 .fullName("SecretFirstName" + i + " SecretLastName" + i)
                 .email("secret.email." + i +"@pii.com")
+                .email2("secret.alt.email." + i +"@pii.com")
                 .phoneNumber("202-000-0000")  // faker than the replacement data
                 .streetAddress("123 Private Street")
                 .city("Private Town")

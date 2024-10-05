@@ -42,6 +42,9 @@ public class User
     @DataClassification(DataType.EMAIL_ADDRESS)
     private String email;
 
+    @DataClassification(type = DataType.EMAIL_ADDRESS, pattern = "{SURNAME}.{GIVEN_NAME}@my-company.com")
+    private String email2;
+
     @DataClassification(DataType.PHONE_NUMBER)
     private String phoneNumber;
 

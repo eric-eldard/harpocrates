@@ -15,13 +15,13 @@ import com.eric_eldard.harpocrates.enumeration.DataType;
 public @interface DataClassification
 {
     @AliasFor("type")
-    DataType value() default DataType.CUSTOM;
+    DataType value() default DataType.OTHER;
 
     /**
      * What kind of data is this
      */
     @AliasFor("value")
-    DataType type() default DataType.CUSTOM;
+    DataType type() default DataType.OTHER;
 
     /**
      * How should the obfuscator treat this piece of data
@@ -31,7 +31,7 @@ public @interface DataClassification
     /**
      * A custom replacement pattern using any combination of hard-coded strings, placeholders for existing
      * {@link DataType}s, and/or placeholders for random numbers or letters (specified as a series of 0s and As, like
-     * <code>"#{A00}"</code>). This value will only be read when {@link #type()} is set to {@link DataType#CUSTOM}.
+     * <code>"#{A00}"</code>).
      * <br><br>
      * Examples:
      * <ul>
@@ -44,7 +44,7 @@ public @interface DataClassification
 
     /**
      * An optional classification description which can be used to specify why this data is protected, especially when
-     * {@link #type()} {@link DataType#CUSTOM} is used.
+     * {@link #type()} {@link DataType#OTHER} is used.
      * <br><br>
      * Examples:
      * <ul>
