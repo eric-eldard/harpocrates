@@ -36,6 +36,8 @@ public enum DataType
 
     /**
      * The full postal address of a randomly selected US post office (CITY matches STATE matches ZIP_CODE, etc.)
+     * <br><br>
+     * This is useful over {@link #ADDRESS} if you need a real address that can be validated.
      */
     FULL_ADDRESS("{FULL_ADDRESS}"),
 

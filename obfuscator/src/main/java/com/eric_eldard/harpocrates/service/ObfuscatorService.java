@@ -145,6 +145,9 @@ public class ObfuscatorService
                 "Table name [" + tableName + "] not matched in insert statement [" + insertMatcher.group() + ']');
         }
 
+        // Get one set of randomized replacements for this row, giving consistency if the same placeholder is used twice
+        Map<DataType, String> replacements = makeReplacementsMap();
+
         List<String> colNames = Arrays.asList(insertMatcher.group(2).split(", "));
         List<String> data = splitValues(insertMatcher.group(3), colNames.size());
 
@@ -165,7 +168,7 @@ public class ObfuscatorService
                 }
                 else if (dataDef.getAction() == Action.REPLACE)
                 {
-                    data.set(index, obfuscateDatum(dataDef));
+                    data.set(index, obfuscateDatum(dataDef, replacements));
                 }
             }
         }
@@ -178,7 +181,7 @@ public class ObfuscatorService
         return obfuscatedStmt;
     }
 
-    private String obfuscateDatum(DataDefinition dataDef)
+    private String obfuscateDatum(DataDefinition dataDef, Map<DataType, String> replacements)
     {
         String pattern = dataDef.getPattern() == null ?
             dataDef.getType().getPattern() :
@@ -190,18 +193,10 @@ public class ObfuscatorService
             return null;
         }
 
-        pattern = pattern
-            .replace(DataType.CITY.getPattern(),           AddressService.INSTANCE.makeCity())
-            .replace(DataType.DATE.getPattern() ,          DateService.INSTANCE.makeRandomDateString())
-            .replace(DataType.FULL_ADDRESS.getPattern(),   AddressService.INSTANCE.makeAddress())
-            .replace(DataType.GIVEN_NAME.getPattern(),     NameService.INSTANCE.makeGivenName())
-            .replace(DataType.ORGANIZATION.getPattern(),   OrganizationService.INSTANCE.makeOrganization())
-            .replace(DataType.PHONE_NUMBER.getPattern(),   PhoneNumberService.INSTANCE.makePhoneNumber())
-            .replace(DataType.SSN.getPattern(),            SsnService.INSTANCE.makeSsn())
-            .replace(DataType.STATE.getPattern(),          AddressService.INSTANCE.makeState())
-            .replace(DataType.STREET_ADDRESS.getPattern(), AddressService.INSTANCE.makeStreetAddress())
-            .replace(DataType.SURNAME.getPattern(),        NameService.INSTANCE.makeSurname())
-            .replace(DataType.ZIP_CODE.getPattern(),       AddressService.INSTANCE.makeZip());
+        for (DataType dataType : replacements.keySet())
+        {
+            pattern = pattern.replace(dataType.getPattern(), replacements.get(dataType));
+        }
 
         pattern = obfuscateDocIds(pattern);
 
@@ -297,6 +292,25 @@ public class ObfuscatorService
         }
 
         return valList;
+    }
+    
+    private Map<DataType, String> makeReplacementsMap()
+    {
+        HashMap<DataType, String> replacements = new HashMap<>();
+
+        replacements.put(DataType.CITY,           AddressService.INSTANCE.makeCity());
+        replacements.put(DataType.DATE ,          DateService.INSTANCE.makeRandomDateString());
+        replacements.put(DataType.FULL_ADDRESS,   AddressService.INSTANCE.makeAddress());
+        replacements.put(DataType.GIVEN_NAME,     NameService.INSTANCE.makeGivenName());
+        replacements.put(DataType.ORGANIZATION,   OrganizationService.INSTANCE.makeOrganization());
+        replacements.put(DataType.PHONE_NUMBER,   PhoneNumberService.INSTANCE.makePhoneNumber());
+        replacements.put(DataType.SSN,            SsnService.INSTANCE.makeSsn());
+        replacements.put(DataType.STATE,          AddressService.INSTANCE.makeState());
+        replacements.put(DataType.STREET_ADDRESS, AddressService.INSTANCE.makeStreetAddress());
+        replacements.put(DataType.SURNAME,        NameService.INSTANCE.makeSurname());
+        replacements.put(DataType.ZIP_CODE,       AddressService.INSTANCE.makeZip());
+
+        return replacements;
     }
 
     private String escapeQuotes(@Nonnull String stmt)
